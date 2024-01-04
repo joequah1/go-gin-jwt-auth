@@ -2,7 +2,10 @@
 
 Gin JWT Auth is a Golang web application featuring JWT authentication with the GIN framework. This project provides a quick start for building secure web applications.
 
-For detailed instructions and explanations, please refer to [my guide](https://www.fastdt.app/2023/12/20/creating-a-gin-project-with-basic-jwt-authentication-a-step-by-step-guide/).
+For detailed instructions and explanations, please refer to the following guides:
+
+- [Creating a Gin Project with Basic JWT Authentication: A Step-by-Step Guide (Part 1)](https://www.fastdt.app/2023/12/20/creating-a-gin-project-with-basic-jwt-authentication-a-step-by-step-guide/)
+- [Enhancing Go Gin JWT Authentication: Registration, Login, and Profile Update (Part 2)](https://www.fastdt.app/2024/01/02/building-a-web-application-with-go-gin-and-jwt-authentication-part-2/)
 
 ## Installation and Setup
 
@@ -77,4 +80,4 @@ Make sure you have the following tools installed:
     curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/profile
     ```
 
-For more [my guide](https://www.fastdt.app/2023/12/20/creating-a-gin-project-with-basic-jwt-authentication-a-step-by-step-guide/), check out my guide where I explain the project in depth.
+For more details, check out [Creating a Gin Project with Basic JWT Authentication](https://www.fastdt.app/2023/12/20/creating-a-gin-project-with-basic-jwt-authentication-a-step-by-step-guide/) and [Enhancing Go Gin JWT Authentication: Registration, Login, and Profile Update](https://www.fastdt.app/2024/01/02/building-a-web-application-with-go-gin-and-jwt-authentication-part-2/).
