@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/gin-contrib/sessions"
+  	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"ginjwtauth/models"
 	"ginjwtauth/controllers"
@@ -14,6 +16,16 @@ func main() {
 	// Load database connection
 	models.ConnectDataBase()
 
+	// Load templates
+	r.LoadHTMLGlob("views/*")
+
+	// Set up session middleware
+	store := cookie.NewStore([]byte("secret"))
+	r.Use(sessions.Sessions("mysession", store))
+	
+	// Set up FlashMessageMiddleware
+    r.Use(middlewares.FlashMessageMiddleware())
+
 	// Group routes
 	api := r.Group("/api")
 	{
@@ -26,8 +38,26 @@ func main() {
 
 		// Profile route with JWT authentication middleware
 		api.GET("/profile", middlewares.JwtAuthMiddleware(), controllers.Profile)
+		api.GET("/user", middlewares.JwtAuthMiddleware(), controllers.Profile)
+		api.POST("/user", middlewares.JwtAuthMiddleware(), controllers.UpdateProfile)
 	}
 
+	dashboard := r.Group("/dashboard")
+	dashboard.Use(middlewares.AuthMiddleware())
+	dashboard.GET("/profile", controllers.ProfileIndex)
+
+	web := r.Group("/web")
+	{
+		web.Use(middlewares.AuthMiddleware())
+		web.POST("/user", controllers.UpdateProfile)
+	}
+
+	r.GET("/login", controllers.LoginIndex)
+	r.GET("/register", controllers.RegisterIndex)
+
+	// New login route that sets a session
+	r.POST("/api/loginWithSession", controllers.LoginWithSession)
+
 	// Run the server
-	r.Run(":8080")
+	r.Run(":8082")
 }

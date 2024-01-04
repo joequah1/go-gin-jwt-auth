@@ -6,15 +6,7 @@ import (
 	"ginjwtauth/models"
 	"ginjwtauth/utils"
 	"net/http"
-	"github.com/gin-contrib/sessions"
 )
-
-// RegisterIndex displays the registration form
-func RegisterIndex(c *gin.Context) {
-	utils.RenderTemplate(c, "register.tmpl", gin.H{
-		"title": "Register",
-	})
-}
 
 type RegisterInput struct {
 	Username string `json:"username" binding:"required"`
@@ -96,34 +88,4 @@ func Profile(c *gin.Context) {
 		"name":     user.Name,
 		"email":    user.Email,
 	})
-}
-
-// Login Index Page
-func LoginIndex (c *gin.Context) {
-	utils.RenderTemplate(c, "login.tmpl", gin.H{
-		"title": "Login",
-	})
-}
-
-// LoginWithSession handles user login and sets a session
-func LoginWithSession(c *gin.Context) {
-	username := c.PostForm("username")
-	password := c.PostForm("password")
-
-	// Authenticate user
-	token, err := models.LoginCheck(username, password)
-
-	if err != nil {
-		// Authentication failed, return an error response
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
-		return
-	}
-
-	// Set a session variable
-	session := sessions.Default(c)
-	session.Set("token", token)
-	session.Save()
-
-	redirectURL := "/dashboard/profile"
-    c.Redirect(http.StatusSeeOther, redirectURL)
 }
